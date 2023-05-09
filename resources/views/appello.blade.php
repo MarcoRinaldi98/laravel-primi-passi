@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <!-- Titolo della pagina -->
-    <title> Lista alunni </title>
+    <title> Appello </title>
 </head>
 
 <body>
@@ -31,13 +31,24 @@
     </header>
 
     <main>
-        <div class="container-sm pt-5">
-            <ul class="list-group">
-                <li class="list-group-item active">Lista completa studenti:</li>
-                @foreach ($alunni as $alunno)
-                    <li class="list-group-item">{{ $alunno }}</li>
-                @endforeach
-            </ul>
+        <div class="container-sm py-5">
+            @if (count($alunni_presenti) == 0)
+                <div class="alert alert-danger text-center fw-semibold" role="alert">
+                    Oggi, {{ $data_odierna }}, tutti gli alunni sono assenti!
+                </div>
+            @elseif (count($alunni_presenti) > count($alunni))
+                <div class="alert alert-warning text-center fw-semibold" role="alert">
+                    Errore di battitura negli alunni presenti!
+                </div>
+            @else
+                <ul class="list-group">
+                    <li class="list-group-item active">Oggi è il {{ $data_odierna }} e ci sono
+                        {{ count($alunni_presenti) }} alunni presenti:</li>
+                    @foreach ($alunni_presenti as $alunno_presente)
+                        <li class="list-group-item">{{ $alunno_presente }}</li>
+                    @endforeach
+                </ul>
+            @endif
         </div>
     </main>
 </body>
